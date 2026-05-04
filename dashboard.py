@@ -85,7 +85,11 @@ st.markdown("---")
 
 # ── KPIs ──────────────────────────────────────────────────────────
 aov       = dff.groupby('Invoice')['TotalPrice'].sum().mean()
-champ_shr = rfm[rfm['Segment']=='Champions']['Monetary'].sum() / rfm['Monetary'].sum()
+champ_shr = (
+    rfm_f[rfm_f['Segment'] == 'Champions']['Monetary'].sum()
+    / rfm_f['Monetary'].sum()
+) if len(rfm_f) > 0 else 0
+
 churn_rate= churn_f['churned'].mean()
 
 cols = st.columns(6)
@@ -360,7 +364,8 @@ with t4:
     churn_f['Risk Tier'] = pd.cut(
         churn_f['churn_prob'],
         bins=[0, 0.4, 0.7, 1.0],
-        labels=['Low (<40%)', 'Medium (40–70%)', 'High (>70%)'])
+        labels=['Low (<40%)', 'Medium (40–70%)', 'High (>70%)'],
+        include_lowest=True)
 
     risk_colors = {'Low (<40%)':'#1D9E75',
                    'Medium (40–70%)':'#C97C1A',

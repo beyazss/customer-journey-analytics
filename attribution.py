@@ -5,8 +5,9 @@ import matplotlib.pyplot as plt
 # Load clean data
 df = pd.read_csv('data/clean_data.csv', parse_dates=['InvoiceDate'])
 
-# Bu veri setinde kanal bilgisi yok, o yüzden gerçekçi bir simülasyon yapıyoruz.
-# Gerçek hayatta bu veri CRM/GA'dan gelir — bunu README'de belirteceğiz.
+# The dataset does not include channel/traffic source data.
+# Channel touchpoints are simulated to demonstrate attribution logic.
+# In a real setting, this data would come from GA4 or a CRM platform.
 np.random.seed(42)
 
 channels = ['Organic Search', 'Email', 'Paid Search', 'Direct', 'Social']

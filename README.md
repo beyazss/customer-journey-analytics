@@ -5,11 +5,21 @@ Covers RFM-based customer segmentation, multi-touch attribution modeling, and ch
 
 ---
 
+## Dashboard Preview
+
+![Overview](assets/overview.png)
+![Segmentation](assets/segmentation.png)
+![Attribution](assets/attribution.png)
+![Churn](assets/churn.png)
+
+---
+
 ## Project Structure
 
-
+```
 customer-journey-analytics/
 │
+├── assets/                      # Dashboard screenshots
 ├── data/                        # Raw and processed data (not tracked)
 ├── eda.py                       # Exploratory data analysis & cleaning
 ├── rfm_segmentation.py          # RFM scoring and customer segmentation
@@ -17,7 +27,7 @@ customer-journey-analytics/
 ├── churn.py                     # Churn prediction (Random Forest)
 ├── dashboard.py                 # Interactive Streamlit dashboard
 └── requirements.txt
-
+```
 
 ---
 
@@ -47,17 +57,16 @@ Download the dataset and place `online_retail_II.csv` inside the `data/` folder 
 - Key finding: Champions represent ~25% of customers but drive **69.3% of total revenue**
 
 ### 3. Multi-Touch Attribution
-- Simulated customer touchpoint journeys across five channels:
-  Organic Search · Email · Paid Search · Direct · Social
+- Simulated customer touchpoint journeys across five channels: Organic Search · Email · Paid Search · Direct · Social
 - Implemented and compared three attribution models:
   - **Last-click** — full credit to the final touchpoint
   - **Linear** — equal credit across all touchpoints
   - **Time Decay** — exponentially higher weight on recent touches
-- Note: Channel data is simulated for demonstration purposes, as the UCI dataset does not include traffic source information. In a production setting, this would be sourced from Google Analytics or a CRM.
+- Note: Channel data is simulated for demonstration purposes — the UCI dataset does not include traffic source information. I chose to include this module to demonstrate how different attribution models would be compared given real GA4 or CRM data.
 
 ### 4. Churn Prediction
 - Defined churn using a **temporal split**: customers active in the first 75% of the time window were labeled churned if they did not purchase in the final 25%
-- Trained a **Random Forest classifier** on behavioral features (Frequency, Monetary, Avg Order Value, Unique Products, Avg Quantity, Purchase Interval Std)
+- Trained a **Random Forest classifier** on behavioral features: Frequency, Monetary, Avg Order Value, Unique Products, Avg Quantity, Purchase Interval Std
 - Intentionally excluded Recency from features to avoid data leakage
 - **ROC-AUC: 0.755** on held-out test set
 - Key finding: Purchase frequency is the strongest predictor of retention
@@ -77,7 +86,7 @@ Download the dataset and place `online_retail_II.csv` inside the `data/` folder 
 
 - **Pareto effect is extreme**: top ~25% of customers generate ~70% of revenue
 - **B2B buying behavior**: peak transactions between 10:00–14:00 on weekdays
-- **Organic Search dominates** attribution across all three models
+- **Organic Search dominates** attribution across all three simulated models
 - **Direct channel is undervalued** by last-click — linear attribution reveals it plays a mid-funnel role
 - **High churn risk** concentrated in Lost and At Risk segments, which together represent ~£2.3M in historical revenue
 
@@ -117,5 +126,7 @@ streamlit run dashboard.py
 
 - Attribution channel data is simulated — real implementation requires GA4 or CRM integration
 - RFM segment thresholds are heuristic and would benefit from business validation
-- Churn model could be improved with additional features (product categories, return rates)
+- Churn model could be improved with additional features such as product categories and return rates
 - Deployment to Streamlit Cloud would make the dashboard publicly accessible
+
+
